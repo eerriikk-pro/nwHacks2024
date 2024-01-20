@@ -79,12 +79,8 @@ postgres_password = os.environ.get("POSTGRES_PASSWORD")
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "nwhacks2024",
-        "USER": "postgres",
-        "PASSWORD": postgres_password,
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "mydatabase",  # This is where you put the name of the db file.
     }
 }
 

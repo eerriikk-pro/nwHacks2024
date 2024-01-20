@@ -299,6 +299,15 @@
             "markers": "python_version >= '3.6' and python_version < '4.0'",
             "version": "==0.15"
         },
+        "django-environ": {
+            "hashes": [
+                "sha256:0ff95ab4344bfeff693836aa978e6840abef2e2f1145adff7735892711590c05",
+                "sha256:f32a87aa0899894c27d4e1776fa6b477e8164ed7f6b3e410a62a6d72caaf64be"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.6' and python_version < '4'",
+            "version": "==0.11.2"
+        },
         "exceptiongroup": {
             "hashes": [
                 "sha256:4bfd3996ac73b41e9b9628b04e079f193850720ea5945fc96a08633c66912f14",
@@ -968,7 +977,7 @@
                 "sha256:aa3ace4329eeacda5b7beb7ea08ece826c28d761cda36e747cfbf97996d39bf3",
                 "sha256:dd54c94f294765522c77399649b4fefd95522479a664a0cec87f41bebc6148c9"
             ],
-            "markers": "python_version >= '2'",
+            "markers": "sys_platform == 'win32'",
             "version": "==2023.4"
         },
         "uritemplate": {

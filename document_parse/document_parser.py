@@ -22,7 +22,7 @@ MarkdownDataFrame = Annotated[
     WithJsonSchema(
         {
             "type": "string",
-            "description": "The markdown representation of the table, each one should be tidy, do not try to join tables that should be seperate",
+            "description": "The markdown representation of the table, each one should be tidy, do not try to join tables that should be seperate. The tables are menus, so keep that in mind and add a column for dietary restrictions if applicable.",
         }
     ),
 ]
@@ -33,7 +33,10 @@ class Table(BaseModel):
     dataframe: MarkdownDataFrame
 
 
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY_NWHACKS2024")
+try:
+    OPENAI_API_KEY = os.environ["OPENAI_API_KEY_NWHACKS2024"]
+except:
+    OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY_NWHACKS2024")
 
 # Apply the patch to the OpenAI client to support response_model
 # Also use MD_JSON mode since the vision model does not support any special structured output mode
@@ -51,7 +54,10 @@ def extract_table(url: str) -> Iterable[Table]:
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": "Extract table from image."},
+                    {
+                        "type": "text",
+                        "text": "Extract table from image. These tables are menus, so they should have a title and price column, as well as a column for dietary restrictions if applicable.",
+                    },
                     {"type": "image_url", "image_url": {"url": url}},
                 ],
             }

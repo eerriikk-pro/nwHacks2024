@@ -35,6 +35,7 @@ DEBUG = env('DEBUG')
 # Raises Django's ImproperlyConfigured
 # exception if SECRET_KEY not in os.environ
 SECRET_KEY = env('SECRET_KEY')
+GOOGLE_MAPS_API = env('GOOGLE_MAPS_API')
 
 ALLOWED_HOSTS = []
 

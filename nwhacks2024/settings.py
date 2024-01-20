@@ -79,7 +79,7 @@ postgres_password = os.environ.get("POSTGRES_PASSWORD")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "mydatabase",  # This is where you put the name of the db file.
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 

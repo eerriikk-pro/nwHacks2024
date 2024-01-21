@@ -14,6 +14,8 @@ google-auth-oauthlib = "*"
 instructor = "*"
 django-environ = "*"
 selenium = "*"
+django-datatables-view = "*"
+tabulate = "*"
 
 [dev-packages]
 

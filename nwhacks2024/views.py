@@ -1,4 +1,5 @@
 import json
+import os
 
 import pandas as pd
 from django.conf import settings
@@ -98,38 +99,47 @@ from openai import OpenAI
 
 def menu_filter(request):
     # Handle form submission
-    if request.method == "POST":
-        search_term = request.POST.get("search", "")
 
     # Retrieve image URLs from session
     df_html = request.session.get("df_html", [])
+    openai_response = ""
+    if request.method == "POST":
+        search_term = request.POST.get("search", "")
+        try:
+            OPENAI_API_KEY = os.environ["OPENAI_API_KEY_NWHACKS2024"]
+        except:
+            OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY_NWHACKS2024")
 
-    # return client.chat.completions.create(
-    #     model="gpt-4-vision-preview",
-    #     response_model=Table,
-    #     max_tokens=1800,
-    #     messages=[
-    #         {
-    #             "role": "user",
-    #             "content": [
-    #                 {
-    #                     "type": "text",
-    #                     "text": """Extract data from the table, which is a menu.
-    #                                 Table should have a title, description, price, and dietary restrictions column if applicable.
-    #                                 If there seem to be multiple tables, add another table column representing the title of the table (label the column type), hence joining all the tables into one.
-    #                                 Dietary restrictions may include gluten-free, vegan, vegetarian, kosher, halal, and any other common restrictions.
-    #                                 Only include restrictions that are mentioned in the menu (might be a symbol), othewise keep blank""",
-    #                 },
-    #                 {"type": "image_url", "image_url": {"url": url}},
-    #             ],
-    #         }
-    #     ],
-    # )
+        # Apply the patch to the OpenAI client to support response_model
+        # Also use MD_JSON mode since the vision model does not support any special structured output mode
+        client = OpenAI(api_key=OPENAI_API_KEY)
+        openai_response = client.chat.completions.create(
+            model="gpt-4-vision-preview",
+            max_tokens=1800,
+            messages=[
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": """Based on the table, answer the question below: """
+                            + search_term,
+                        },
+                        {"type": "text", "text": df_html},
+                    ],
+                },
+            ],
+        )
+        # openai_response = openai_response["choices"][0]["message"]["content"][0][
+        #     "content"
+        # ]
 
     # # Clear the session data
     # if "df_html" in request.session:
     #     del request.session["df_html"]
 
     return render(
-        request, "menu_filter.html", {"df_html": df_html, "search_term": search_term}
+        request,
+        "menu_filter.html",
+        {"df_html": df_html, "search_response": openai_response},
     )

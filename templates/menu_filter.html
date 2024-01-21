@@ -43,13 +43,16 @@
 <body>
     <h1>Menu</h1>
     <!-- Add a form for the search box -->
-    <form class="search-form" method="post" action="{% url 'your_function_url' %}">
+    <form class="search-form" method="post" action="{% url 'menu_filter' %}">
         {% csrf_token %}
         <label for="search" style="margin-right: 10px;">Search: </label>
         <input type="text" id="search" name="search" class="search-input" placeholder="Type here...">
         <button type="submit">Search</button>
     </form>
-
+    <!-- Display the search response -->
+    <div class="search-response">
+        {{ search_response }}
+    </div>
     <div>
         <!-- Render the DataFrame's HTML -->
         {{ df_html|safe }}

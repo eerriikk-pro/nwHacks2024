@@ -2,10 +2,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Menu Filter</title>
+    <title>Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        .search-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .search-input {
+            padding: 5px;
+            width: 300px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Menu Filter</h1>
+    <h1>Menu</h1>
+    <!-- Add a form for the search box -->
+    <form class="search-form" method="post" action="{% url 'your_function_url' %}">
+        {% csrf_token %}
+        <label for="search" style="margin-right: 10px;">Search: </label>
+        <input type="text" id="search" name="search" class="search-input" placeholder="Type here...">
+        <button type="submit">Search</button>
+    </form>
+
     <div>
         <!-- Render the DataFrame's HTML -->
         {{ df_html|safe }}

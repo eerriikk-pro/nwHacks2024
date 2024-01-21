@@ -13,7 +13,11 @@ from pydantic import (
     PlainSerializer,
     WithJsonSchema,
 )
-from utils import md_to_df
+
+try:
+    from nwhacks2024.document_parse.utils import md_to_df
+except:
+    from utils import md_to_df
 
 MarkdownDataFrame = Annotated[
     InstanceOf[pd.DataFrame],

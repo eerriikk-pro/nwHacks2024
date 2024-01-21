@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+
 from nwhacks2024.geooding.utils import get_higher_quality
 
 wait_time = 3
@@ -108,8 +109,12 @@ def get_photos_by_place_id(place_id):
         time.sleep(wait_time)
 
         # Find and click the menu button
+        count = 0
         while True:
             try:
+                count += 1
+                if count > 10:
+                    break
                 menu_button = driver.find_element(
                     By.XPATH,
                     f'//*[@aria-label="{menu_button_aria_label}"][contains(@class, "{menu_button_class_name}")]',

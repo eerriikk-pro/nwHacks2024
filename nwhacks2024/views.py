@@ -2,11 +2,13 @@ import json
 
 from django.conf import settings
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render, redirect
+from nwhacks2024.geooding.scrape_gmaps import get_photos_by_place_id
 from django.views.decorators.http import require_http_methods
 
 from nwhacks2024.document_parse.document_parser import extract_table
 from nwhacks2024.geooding.scrape_gmaps import get_photos_by_place_id
+import pandas as pd
 
 # Create your views here.
 
@@ -21,7 +23,8 @@ def process_place_id(request):
         try:
             data = json.loads(request.body)
             place_id = data.get("placeId")
-            print(place_id)
+
+            # Use Selenium to gather menu images
             image_urls = get_photos_by_place_id(place_id)
 
             # Store image URLs in session
@@ -39,7 +42,7 @@ def menu_gallery(request):
     # Retrieve image URLs from session
     image_urls = request.session.get("image_urls", [])
 
-    # Optionally, clear the session data
+    # Clear the session data
     if "image_urls" in request.session:
         del request.session["image_urls"]
 
@@ -52,22 +55,40 @@ def process_image(request):
     data = json.loads(request.body)
     image_url = data.get("imageUrl")
     print(image_url)
-    count = 0
-    while True:
-        try:
-            count = count + 1
-            if count > 5:
-                break
-            print(count)
-            tables = extract_table(image_url)
-            break
-        except:
-            continue
-    for table in tables:
-        print(table.caption)
-        print(table.dataframe)
+    # count = 0
+    # while True:
+    #     # try:
+    #     count = count + 1
+    #     if count > 5:
+    #         break
+    #     print(count)
+    #     tables = extract_table(image_url)
+    #     break
+    #     # except:
+    #     #     continue
+    # for table in tables:
+    #     print(table.caption)
+    #     print(table.dataframe)
 
-    # Process the image URL as needed
-    # ...
+    file_path = 'table.csv'
+    df = pd.read_csv(file_path)
 
-    return JsonResponse({"status": "success", "message": "Image processed"})
+    print(df.head())
+
+    # Convert the DataFrame to HTML
+    df_html = df.to_html()
+
+    request.session["df_html"] = df_html
+
+    return JsonResponse({"redirect_url": "/menu_filter/"})
+
+
+def menu_filter(request):
+    # Retrieve image URLs from session
+    df_html = request.session.get("df_html", [])
+
+    # Clear the session data
+    if "df_html" in request.session:
+        del request.session["df_html"]
+
+    return render(request, "menu_filter.html", {"df_html": df_html})

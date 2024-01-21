@@ -35,8 +35,12 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Processed Image:', data);
-                // Additional handling here
+                if (data.redirect_url) {
+                    // Redirect to the provided URL
+                    window.location.href = data.redirect_url;
+                } else {
+                    console.log('Processed Image:', data);
+                }
             })
             .catch(error => console.error('Error:', error));
         }

@@ -28,13 +28,13 @@ menu_button_aria_label = "Menu"
 photos_class_name = "U39Pmb"
 
 # Initialize the webdriver
-driver = webdriver.Chrome()
 
 input_element_attribute = "jslog"
 input_element_value = "11886"
 
 
 def get_photos(search_query):
+    driver = webdriver.Chrome()
     try:
         # Open Google Maps
         driver.get("https://maps.google.ca")
@@ -98,6 +98,7 @@ def get_photos(search_query):
 
 
 def get_photos_by_place_id(place_id):
+    driver = webdriver.Chrome()
     try:
         url = f"https://www.google.com/maps/search/?api=1&query=Google&query_place_id={place_id}"
         # Open Google Maps

@@ -21,8 +21,8 @@ def process_place_id(request):
             data = json.loads(request.body)
             place_id = data.get("placeId")
             print(place_id)
-            # image_urls = get_photos_by_place_id(place_id)
-            image_urls = ['https://lh5.googleusercontent.com/p/AF1QipNXzX1Q9-1a3rpLhP4oXstvKGoyMYjkauSTT8-B=s2000-k-no']
+            image_urls = get_photos_by_place_id(place_id)
+            # image_urls = ['https://lh5.googleusercontent.com/p/AF1QipNXzX1Q9-1a3rpLhP4oXstvKGoyMYjkauSTT8-B=s2000-k-no']
             print(image_urls)
             return JsonResponse({'redirect_url': '/menu_gallery/'})
         except Exception as e:

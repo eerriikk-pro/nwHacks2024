@@ -85,6 +85,17 @@ function initMap() {
                 placeAddressElement.textContent = place.formatted_address;
                 content.appendChild(placeAddressElement);
 
+                // Add a search menus hyperlink
+                const menuLink = document.createElement("a");
+                menuLink.href = "#"; // Placeholder href, should be replaced with actual link
+                menuLink.textContent = "Search menus";
+                menuLink.onclick = function() {
+                    handlePlaceId(place.place_id);
+                    return false; // Prevent default link behavior
+                };
+                content.appendChild(menuLink);
+
+
                 infowindow.setContent(content);
                 infowindow.open(map, marker);
             });

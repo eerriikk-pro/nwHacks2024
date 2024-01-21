@@ -108,11 +108,16 @@ def get_photos_by_place_id(place_id):
         time.sleep(wait_time)
 
         # Find and click the menu button
-        menu_button = driver.find_element(
-            By.XPATH,
-            f'//*[@aria-label="{menu_button_aria_label}"][contains(@class, "{menu_button_class_name}")]',
-        )
-        menu_button.click()
+        while True:
+            try:
+                menu_button = driver.find_element(
+                    By.XPATH,
+                    f'//*[@aria-label="{menu_button_aria_label}"][contains(@class, "{menu_button_class_name}")]',
+                )
+                menu_button.click()
+                break
+            except:
+                driver.find_element("tag name", "body").send_keys(Keys.PAGE_DOWN)
 
         time.sleep(wait_time)
 
@@ -145,7 +150,6 @@ def get_photos_by_place_id(place_id):
             if high_quality == "s2000/":
                 continue
             background_images_parsed.append(high_quality)
-    print(background_images_parsed)
     return background_images_parsed
 
 

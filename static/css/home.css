@@ -1,0 +1,58 @@
+/* General page styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Top logo bar */
+.logo-bar {
+  background-color: #f8f8f8;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Main content area */
+.content {
+  display: flex;
+  height: calc(100% - 100px);
+}
+
+/* Map container */
+.map-container {
+  flex: 0 0 70%;
+  position: relative;
+  padding-left: 40px;
+}
+
+#map {
+  height: 400px;
+  width: 80%;
+  margin-top: 40px;
+}
+
+
+/* Text column */
+.text-column {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff; /
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Search box styling */
+#pac-input {
+  position: absolute;
+  left: 10px;  /* Distance from the left */
+  top: 40px;   /* Distance from the top */
+  z-index: 5;
+  width: 400px; /* Shorter length */
+  height: 40px; /* Taller height */
+  font-size: 16px; /* Adjust font size as needed */
+  padding: 0 10px; /* Adjust padding for text inside the search box */
+}
+

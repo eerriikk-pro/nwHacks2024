@@ -1,7 +1,9 @@
 <html>
 {% load static %}
   <head>
-    <title>Place Details</title>
+    <title>Choose a Restaurant</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
     <!-- Pass the API key to JavaScript -->
@@ -10,27 +12,31 @@
     </script>
 
     <script type="module" src="{% static 'js/maps.js' %}"></script>
-    <style>
-        #map {
-            height: 400px;  // Or any other size
-            width: 100%;
-        }
-    </style>
   </head>
   <body>
+
+    <!-- Logo bar -->
+    <div class="logo-bar">
+        <h2>BestPlate</h2>
+    </div>
 
   <!-- Hidden form for CSRF token -->
     <form style="display:none;">
         {% csrf_token %}
     </form>
 
-    <input
-      id="pac-input"
-      class="controls"
-      type="text"
-      placeholder="Search Box"
-    />
-    <div id="map"></div>
+    <div class="content">
+      <!-- Map Container -->
+      <div class="map-container">
+          <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+          <div id="map"></div>
+      </div>
+
+      <!-- Text Column -->
+      <div class="text-column">
+          <h2>Please search for a restaurant and click "Search menus" to see menu pictures</h2>
+      </div>
+    </div>
 
     <!--
       The `defer` attribute causes the callback to execute after the full HTML

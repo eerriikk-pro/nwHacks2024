@@ -123,3 +123,50 @@ function loadGoogleMapsApi() {
 }
 
 window.onload = loadGoogleMapsApi;
+
+function getCSRFToken() {
+    let cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        let [name, value] = cookie.trim().split('=');
+        if (name === 'csrftoken') {
+            return decodeURIComponent(value);
+        }
+    }
+    return '';
+}
+
+// Function to handle Place ID
+function handlePlaceId(placeId) {
+    // Send the Place ID to your Django view using an AJAX POST request
+    fetch('processing/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCSRFToken(),   // Include CSRF token for Django
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ placeId: placeId })  // Send Place ID in JSON format
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Response:', data);
+        // Handle the response data here
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+// Function to get CSRF token from cookies (needed for Django POST requests)
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+

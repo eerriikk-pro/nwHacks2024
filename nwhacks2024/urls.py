@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import load_map
+from .views import load_map, process_place_id
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", load_map, name="load_map"),
+    path('processing/', process_place_id, name='process_place_id'),
 ]

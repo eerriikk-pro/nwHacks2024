@@ -18,6 +18,12 @@
     </style>
   </head>
   <body>
+
+  <!-- Hidden form for CSRF token -->
+    <form style="display:none;">
+        {% csrf_token %}
+    </form>
+
     <input
       id="pac-input"
       class="controls"

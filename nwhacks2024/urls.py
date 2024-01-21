@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import load_map, process_place_id, process_image
+from .views import load_map, process_place_id, process_image, menu_gallery
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", load_map, name="load_map"),
     path('processing/', process_place_id, name='process_place_id'),
+    path('menu_gallery/', menu_gallery, name="menu_gallery"),
     path('process-image/', process_image, name='process_image'),
 ]

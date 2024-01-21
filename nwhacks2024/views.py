@@ -2,9 +2,10 @@ import json
 
 from django.conf import settings
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from nwhacks2024.geooding.scrape_gmaps import get_photos_by_place_id
 from django.views.decorators.http import require_http_methods
+
 
 # Create your views here.
 
@@ -19,15 +20,29 @@ def process_place_id(request):
         try:
             data = json.loads(request.body)
             place_id = data.get("placeId")
-            # image_urls = get_photos_by_place_id(place_id)
-            image_urls = ['https://lh5.googleusercontent.com/p/AF1QipNXzX1Q9-1a3rpLhP4oXstvKGoyMYjkauSTT8-B=s2000-k-no']
-            print(image_urls)
-            return render(request, 'image_gallery.html', {'image_urls': image_urls})
+            print(place_id)
+            image_urls = get_photos_by_place_id(place_id)
+
+            # Store image URLs in session
+            request.session['image_urls'] = image_urls
+
+            return JsonResponse({'redirect_url': '/menu_gallery/'})
         except Exception as e:
             # Log the exception for debugging
             print(f"Error: {e}")
             # Return a JSON response with the error message
             return JsonResponse({'error': str(e)}, status=500)
+
+
+def menu_gallery(request):
+    # Retrieve image URLs from session
+    image_urls = request.session.get('image_urls', [])
+
+    # Optionally, clear the session data
+    if 'image_urls' in request.session:
+        del request.session['image_urls']
+
+    return render(request, 'image_gallery.html', {'image_urls': image_urls})
 
 
 @require_http_methods(["POST"])

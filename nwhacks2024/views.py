@@ -22,8 +22,10 @@ def process_place_id(request):
             place_id = data.get("placeId")
             print(place_id)
             image_urls = get_photos_by_place_id(place_id)
-            # image_urls = ['https://lh5.googleusercontent.com/p/AF1QipNXzX1Q9-1a3rpLhP4oXstvKGoyMYjkauSTT8-B=s2000-k-no']
-            print(image_urls)
+
+            # Store image URLs in session
+            request.session['image_urls'] = image_urls
+
             return JsonResponse({'redirect_url': '/menu_gallery/'})
         except Exception as e:
             # Log the exception for debugging
@@ -33,7 +35,14 @@ def process_place_id(request):
 
 
 def menu_gallery(request):
-    return render(request, 'image_gallery.html')
+    # Retrieve image URLs from session
+    image_urls = request.session.get('image_urls', [])
+
+    # Optionally, clear the session data
+    if 'image_urls' in request.session:
+        del request.session['image_urls']
+
+    return render(request, 'image_gallery.html', {'image_urls': image_urls})
 
 
 @require_http_methods(["POST"])

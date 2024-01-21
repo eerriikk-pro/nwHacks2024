@@ -19,7 +19,7 @@ function initMap() {
     zoom: 15,
   });
   const request = {
-    placeId: "ChIJN1t_tDeuEmsRUsoyG83frY4",
+    placeId: "ChIJW08b_MdyhlQRkJMDvWQ5iko",
     fields: ["name", "formatted_address", "place_id", "geometry"],
   };
   const infowindow = new google.maps.InfoWindow();

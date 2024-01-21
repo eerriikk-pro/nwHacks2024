@@ -22,7 +22,9 @@ MarkdownDataFrame = Annotated[
     WithJsonSchema(
         {
             "type": "string",
-            "description": "The markdown representation of the table, each one should be tidy, do not try to join tables that should be seperate. The tables are menus, so keep that in mind and add a column for dietary restrictions if applicable.",
+            "description": """The markdown representation of the table, each one should be tidy, do not try to join tables that should be seperate. 
+            The tables are menus, so keep that in mind when parsing them.
+            Tables should have a title, description, price, and dietary restrictions column if applicable.""",
         }
     ),
 ]
@@ -56,7 +58,9 @@ def extract_table(url: str) -> Iterable[Table]:
                 "content": [
                     {
                         "type": "text",
-                        "text": "Extract table from image. These tables are menus, so they should have a title and price column, as well as a column for dietary restrictions if applicable.",
+                        "text": """Extract data fromthe table. Each one should be tidy, do not try to join tables that should be seperate. 
+                                    The tables are menus, so keep that in mind when parsing them.
+                                    Tables should have a title, description, price, and dietary restrictions column if applicable.""",
                     },
                     {"type": "image_url", "image_url": {"url": url}},
                 ],

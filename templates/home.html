@@ -1,0 +1,43 @@
+<html>
+{% load static %}
+  <head>
+    <title>Place Details</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <!-- Pass the API key to JavaScript -->
+    <script type="text/javascript">
+        var googleMapsApiKey = "{{ google_maps_api_key }}";
+    </script>
+
+    <script type="module" src="{% static 'js/maps.js' %}"></script>
+    <style>
+        #map {
+            height: 400px;  // Or any other size
+            width: 100%;
+        }
+    </style>
+  </head>
+  <body>
+
+  <!-- Hidden form for CSRF token -->
+    <form style="display:none;">
+        {% csrf_token %}
+    </form>
+
+    <input
+      id="pac-input"
+      class="controls"
+      type="text"
+      placeholder="Search Box"
+    />
+    <div id="map"></div>
+
+    <!--
+      The `defer` attribute causes the callback to execute after the full HTML
+      document has been parsed. For non-blocking uses, avoiding race conditions,
+      and consistent behavior across browsers, consider loading using Promises.
+      See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
+      for more information.
+      -->
+  </body>
+</html>

@@ -4,6 +4,11 @@
     <title>Place Details</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
+    <!-- Pass the API key to JavaScript -->
+    <script type="text/javascript">
+        var googleMapsApiKey = "{{ google_maps_api_key }}";
+    </script>
+
     <script type="module" src="{% static 'js/maps.js' %}"></script>
     <style>
         #map {

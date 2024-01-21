@@ -20,5 +20,5 @@ from .views import load_map
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('map/', load_map, name='load_map'),
+    path("", load_map, name="load_map"),
 ]

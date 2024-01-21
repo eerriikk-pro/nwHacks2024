@@ -7,7 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from utils import get_higher_quality
+from nwhacks2024.geooding.utils import get_higher_quality
 
 wait_time = 3
 # Set the path to your webdriver (e.g., chromedriver)

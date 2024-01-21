@@ -1,0 +1,56 @@
+<!-- image_gallery.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu Gallery</title>
+    <style>
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .gallery img {
+            margin: 5px;
+            width: 200px; /* Adjust size as needed */
+            height: auto;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery">
+        {% for url in image_urls %}
+            <img src="{{ url }}" onclick="handleImageClick('{{ url }}')">
+        {% endfor %}
+    </div>
+
+    <script>
+        function handleImageClick(url) {
+            fetch('/process-image/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken(),
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ imageUrl: url })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Processed Image:', data);
+                // Additional handling here
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function getCSRFToken() {
+            let cookies = document.cookie.split(';');
+            for (let cookie of cookies) {
+                let [name, value] = cookie.trim().split('=');
+                if (name === 'csrftoken') {
+                    return decodeURIComponent(value);
+                }
+            }
+            return '';
+        }
+    </script>
+</body>
+</html>

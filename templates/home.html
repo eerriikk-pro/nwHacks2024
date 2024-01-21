@@ -1,49 +1,29 @@
+<!DOCTYPE html>
 <html>
 {% load static %}
-  <head>
-    <title>Choose a Restaurant</title>
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-
+<head>
+    <title>Welcome to BestPlate!</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-
-    <!-- Pass the API key to JavaScript -->
     <script type="text/javascript">
         var googleMapsApiKey = "{{ google_maps_api_key }}";
     </script>
-
     <script type="module" src="{% static 'js/maps.js' %}"></script>
-  </head>
-  <body>
-
-    <!-- Logo bar -->
-    <div class="logo-bar">
-        <h2>BestPlate</h2>
+</head>
+<body>
+    <div class="header">
+        <img src="https://i.imgur.com/YK3dn3b.png" />
+        <div class="title">BestPlate</div>
     </div>
 
-  <!-- Hidden form for CSRF token -->
     <form style="display:none;">
         {% csrf_token %}
     </form>
 
-    <div class="content">
-      <!-- Map Container -->
-      <div class="map-container">
-          <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
-          <div id="map"></div>
-      </div>
-
-      <!-- Text Column -->
-      <div class="text-column">
-          <h2>Please search for a restaurant and click "Search menus" to see menu pictures</h2>
-      </div>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map"></div>
+    <div class="prompt-column">
+        <p>Please search for a restaurant and click "Search menus" to see menu pictures.</p>
     </div>
-
-    <!--
-      The `defer` attribute causes the callback to execute after the full HTML
-      document has been parsed. For non-blocking uses, avoiding race conditions,
-      and consistent behavior across browsers, consider loading using Promises.
-      See https://developers.google.com/maps/documentation/javascript/load-maps-js-api
-      for more information.
-      -->
-  </body>
+</body>
 </html>

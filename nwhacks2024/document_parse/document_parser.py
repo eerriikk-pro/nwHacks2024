@@ -13,7 +13,11 @@ from pydantic import (
     PlainSerializer,
     WithJsonSchema,
 )
-from utils import md_to_df
+
+try:
+    from nwhacks2024.document_parse.utils import md_to_df
+except:
+    from utils import md_to_df
 
 MarkdownDataFrame = Annotated[
     InstanceOf[pd.DataFrame],
@@ -60,7 +64,9 @@ def extract_table(url: str) -> Iterable[Table]:
                         "type": "text",
                         "text": """Extract data fromthe table. Each one should be tidy, do not try to join tables that should be seperate. 
                                     The tables are menus, so keep that in mind when parsing them.
-                                    Tables should have a title, description, price, and dietary restrictions column if applicable.""",
+                                    Tables should have a title, description, price, and dietary restrictions column if applicable.
+                                    Dietary restrictions may include gluten-free, vegan, vegetarian, kosher, halal, and any other common restrictions. 
+                                    Only include restrictions that are mentioned in the menu (might be a symbol), othewise keep blank""",
                     },
                     {"type": "image_url", "image_url": {"url": url}},
                 ],
@@ -74,3 +80,4 @@ if __name__ == "__main__":
     for table in extract_table(url):
         print(table.caption)
         print(table.dataframe)
+        table.dataframe.to_csv("table.csv")

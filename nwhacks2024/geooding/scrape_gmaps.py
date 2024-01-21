@@ -7,7 +7,8 @@ from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from utils import get_higher_quality
+
+from nwhacks2024.geooding.utils import get_higher_quality
 
 wait_time = 3
 # Set the path to your webdriver (e.g., chromedriver)
@@ -28,13 +29,13 @@ menu_button_aria_label = "Menu"
 photos_class_name = "U39Pmb"
 
 # Initialize the webdriver
-driver = webdriver.Chrome()
 
 input_element_attribute = "jslog"
 input_element_value = "11886"
 
 
 def get_photos(search_query):
+    driver = webdriver.Chrome()
     try:
         # Open Google Maps
         driver.get("https://maps.google.ca")
@@ -98,6 +99,7 @@ def get_photos(search_query):
 
 
 def get_photos_by_place_id(place_id):
+    driver = webdriver.Chrome()
     try:
         url = f"https://www.google.com/maps/search/?api=1&query=Google&query_place_id={place_id}"
         # Open Google Maps
@@ -107,11 +109,20 @@ def get_photos_by_place_id(place_id):
         time.sleep(wait_time)
 
         # Find and click the menu button
-        menu_button = driver.find_element(
-            By.XPATH,
-            f'//*[@aria-label="{menu_button_aria_label}"][contains(@class, "{menu_button_class_name}")]',
-        )
-        menu_button.click()
+        count = 0
+        while True:
+            try:
+                count += 1
+                if count > 10:
+                    break
+                menu_button = driver.find_element(
+                    By.XPATH,
+                    f'//*[@aria-label="{menu_button_aria_label}"][contains(@class, "{menu_button_class_name}")]',
+                )
+                menu_button.click()
+                break
+            except:
+                driver.find_element("tag name", "body").send_keys(Keys.PAGE_DOWN)
 
         time.sleep(wait_time)
 
@@ -144,7 +155,6 @@ def get_photos_by_place_id(place_id):
             if high_quality == "s2000/":
                 continue
             background_images_parsed.append(high_quality)
-    print(background_images_parsed)
     return background_images_parsed
 
 

@@ -148,8 +148,13 @@ function handlePlaceId(placeId) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Response:', data);
-        // Handle the response data here
+        if (data.redirect_url) {
+            // Redirect to the provided URL
+            window.location.href = data.redirect_url;
+        } else {
+            console.log('Response:', data);
+            // Handle other response data here
+        }
     })
     .catch(error => console.error('Error:', error));
 }

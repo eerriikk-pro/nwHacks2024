@@ -1,0 +1,23 @@
+<!-- home.html -->
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Google Maps</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script type="text/javascript">
+        var googleMapsApiKey = "{{ google_maps_api_key }}";
+    </script>
+    <style>
+        #map {
+            height: 400px;  // Or any other size
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="{% static 'js/maps.js' %}"></script>
+    <!-- Your content goes here -->
+</body>
+</html>

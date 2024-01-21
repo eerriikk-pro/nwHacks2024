@@ -102,7 +102,7 @@ def menu_filter(request):
 
     # Retrieve image URLs from session
     df_html = request.session.get("df_html", [])
-    openai_response = ""
+    assistant_reply = ""
     if request.method == "POST":
         search_term = request.POST.get("search", "")
         try:
@@ -130,6 +130,7 @@ def menu_filter(request):
                 },
             ],
         )
+        assistant_reply = openai_response.choices[0].message.content
         # openai_response = openai_response["choices"][0]["message"]["content"][0][
         #     "content"
         # ]
@@ -141,5 +142,5 @@ def menu_filter(request):
     return render(
         request,
         "menu_filter.html",
-        {"df_html": df_html, "search_response": openai_response},
+        {"df_html": df_html, "search_response": assistant_reply},
     )

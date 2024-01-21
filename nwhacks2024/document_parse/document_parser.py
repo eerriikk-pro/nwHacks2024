@@ -28,7 +28,10 @@ MarkdownDataFrame = Annotated[
             "type": "string",
             "description": """The markdown representation of the table, each one should be tidy, do not try to join tables that should be seperate. 
             The tables are menus, so keep that in mind when parsing them.
-            Tables should have a title, description, price, and dietary restrictions column if applicable.""",
+            If there seem to be multiple tables, add another table column representing the title of the table (label the column type), hence joining all the tables into one. 
+            Tables should have a title, description, price, and dietary restrictions column if applicable.
+            Only include restrictions that are mentioned in the menu (might be a symbol), othewise keep blank.
+            Make sure all the columns titles are in one row (the "type" column should be on the same row as the other headings).""",
         }
     ),
 ]
@@ -51,10 +54,10 @@ client = instructor.patch(
 )
 
 
-def extract_table(url: str) -> Iterable[Table]:
+def extract_table(url: str) -> Table:
     return client.chat.completions.create(
         model="gpt-4-vision-preview",
-        response_model=Iterable[Table],
+        response_model=Table,
         max_tokens=1800,
         messages=[
             {
@@ -62,9 +65,9 @@ def extract_table(url: str) -> Iterable[Table]:
                 "content": [
                     {
                         "type": "text",
-                        "text": """Extract data fromthe table. Each one should be tidy, do not try to join tables that should be seperate. 
-                                    The tables are menus, so keep that in mind when parsing them.
-                                    Tables should have a title, description, price, and dietary restrictions column if applicable.
+                        "text": """Extract data from the table, which is a menu. 
+                                    Table should have a title, description, price, and dietary restrictions column if applicable.
+                                    If there seem to be multiple tables, add another table column representing the title of the table (label the column type), hence joining all the tables into one. 
                                     Dietary restrictions may include gluten-free, vegan, vegetarian, kosher, halal, and any other common restrictions. 
                                     Only include restrictions that are mentioned in the menu (might be a symbol), othewise keep blank""",
                     },
@@ -77,7 +80,18 @@ def extract_table(url: str) -> Iterable[Table]:
 
 if __name__ == "__main__":
     url = input("Enter image url: ")
-    for table in extract_table(url):
-        print(table.caption)
-        print(table.dataframe)
-        table.dataframe.to_csv("table.csv")
+    table = extract_table(url)
+    print(table.dataframe)
+    table.dataframe.to_csv("table.csv")
+    # while True:
+    #     instructions = input("Enter instructions: ")
+    #     if instructions == "exit":
+    #         break
+    #     table = filter_table(table, instructions)
+    #     print(table)
+    #     table.to_csv("table.csv")
+
+    # for table in extract_table(url):
+    #     print(table.caption)
+    #     print(table.dataframe)
+    #     table.dataframe.to_csv("table.csv")

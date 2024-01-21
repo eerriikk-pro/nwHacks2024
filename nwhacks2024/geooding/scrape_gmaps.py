@@ -10,7 +10,7 @@ from selenium.webdriver.common.keys import Keys
 
 from nwhacks2024.geooding.utils import get_higher_quality
 
-wait_time = 3
+wait_time = 1
 # Set the path to your webdriver (e.g., chromedriver)
 webdriver_path = "/path/to/your/webdriver"
 

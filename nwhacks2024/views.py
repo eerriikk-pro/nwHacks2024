@@ -18,14 +18,17 @@ def load_map(request):
 def process_place_id(request):
     if request.method == "POST":
         try:
+            # Get place ID passed from AJAX in maps.js
             data = json.loads(request.body)
             place_id = data.get("placeId")
-            print(place_id)
+
+            # Use Selenium to gather menu images
             image_urls = get_photos_by_place_id(place_id)
 
             # Store image URLs in session
             request.session['image_urls'] = image_urls
 
+            # Redirect using AJAX on client side
             return JsonResponse({'redirect_url': '/menu_gallery/'})
         except Exception as e:
             # Log the exception for debugging
@@ -38,7 +41,7 @@ def menu_gallery(request):
     # Retrieve image URLs from session
     image_urls = request.session.get('image_urls', [])
 
-    # Optionally, clear the session data
+    # Clear the session data
     if 'image_urls' in request.session:
         del request.session['image_urls']
 
@@ -50,6 +53,8 @@ def process_image(request):
     # Parse the request body to get the data
     data = json.loads(request.body)
     image_url = data.get('imageUrl')
+
+    print(image_url)
 
     # Process the image URL as needed
     # ...

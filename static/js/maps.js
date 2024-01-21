@@ -1,16 +1,6 @@
 // This example requires the Places library. Include the libraries=places
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-function loadGoogleMapsApi() {
-    var script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&callback=initMap&libraries=places`;
-    script.async = true;
-    script.defer = true;
-    document.head.appendChild(script);
-}
-
-window.onload = loadGoogleMapsApi;
-
 function initMap() {
   const map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: -33.866, lng: 151.196 },
